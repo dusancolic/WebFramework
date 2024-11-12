@@ -20,12 +20,12 @@ public class DependencyContainer {
 
     private <T> void addInjection(Class<T> clazz, Class<? extends T> clazzImplementation, Class<?> qualifier) {
 
-        implementations.put(clazz.getName() + ":" + qualifier, clazzImplementation.asSubclass(clazz));
+        implementations.put(generateKey(clazz,qualifier), clazzImplementation.asSubclass(clazz));
     }
 
     public <T> Class<? extends T> getInjection(Field field, Class<?> qualifier) {
         Class<T> type = (Class<T>) field.getType();
-        String key = type.getName() + ":" + qualifier;
+        String key = generateKey(type, qualifier);
         if (!implementations.containsKey(key)) {
             createInjection(field);
         }
@@ -43,5 +43,9 @@ public class DependencyContainer {
         Class<T> type = (Class<T>) field.getType();
 
         addInjection(type, qualifier.value().asSubclass(type),qualifier.value());
+    }
+
+    private String generateKey(Class<?> clazz, Class<?> qualifier) {
+        return clazz.getName() + ":" + qualifier.getName();
     }
 }

@@ -42,7 +42,7 @@ public class DiEngine {
                     field.set(instance, singletonInstance);
                     log(field,singletonInstance);
                 }
-                else if (isComponent(fieldType)) {
+                else if (isPrototype(fieldType)) {
                     Object componentInstance = inject(fieldType);
                     field.set(instance, componentInstance); // field je npr logger, a instance je test, znaci da mi ubacujemo MyLogger implementaciju za logger u test
                     log(field,componentInstance);
@@ -87,7 +87,7 @@ public class DiEngine {
                 clazz.isAnnotationPresent(Bean.class) && clazz.getAnnotation(Bean.class).scope() == ScopeEnum.SINGLETON;
     }
 
-    private boolean isComponent(Class<?> clazz) {
+    private boolean isPrototype(Class<?> clazz) {
         return clazz.isAnnotationPresent(Component.class) ||
                 clazz.isAnnotationPresent(Bean.class) && clazz.getAnnotation(Bean.class).scope() == ScopeEnum.PROTOTYPE;
     }

@@ -44,7 +44,7 @@ public class RouteMapper {
                 stringBuilder.append(methodPath.value());
             }
             Map<Object, Method> map = new HashMap<>();
-            map.put(object, method);
+            map.put(object, method);  // instanca kontrolera i metoda
             routes.put(stringBuilder.toString(), map);
         }
     }

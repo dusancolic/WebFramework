@@ -25,14 +25,11 @@ public class DependencyContainer {
 
     public <T> Class<? extends T> getInjection(Field field, Class<?> qualifier) {
         Class<T> type = (Class<T>) field.getType();
-        String key = generateKey(type, qualifier);
+        String key = generateKey(type, qualifier);  //example.test.Logger:example.test.MyLogger
         if (!implementations.containsKey(key)) {
             createInjection(field);
         }
         Class<?> injection = implementations.get(key);
-
-        if (injection == null)
-            throw new RuntimeException("No Dependency Injection for type: " + type);
 
         return injection.asSubclass(type);
     }

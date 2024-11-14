@@ -44,11 +44,15 @@ public class DiEngine {
                 }
                 else if (isComponent(fieldType)) {
                     Object componentInstance = inject(fieldType);
-                    field.set(instance, componentInstance);
+                    field.set(instance, componentInstance); // field je npr logger, a instance je test, znaci da mi ubacujemo MyLogger implementaciju za logger u test
                     log(field,componentInstance);
                 }
-                else
+                else {
+                    field.setAccessible(false);
                     throw new InstantiationException("No Dependency Injection for type: " + fieldType);
+                }
+
+                field.setAccessible(false);
             }
             return instance;
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex) {
@@ -59,7 +63,7 @@ public class DiEngine {
 
     private Class<?> getInjectableIfQualifier(Field field) {
         if(!field.isAnnotationPresent(Qualifier.class))
-            return field.getType();
+            return field.getType();   // ako nema Qualifier anotaciju, onda je tip polja tip klase
 
         Qualifier qualifier = field.getAnnotation(Qualifier.class);
         Class<?> type = field.getType();

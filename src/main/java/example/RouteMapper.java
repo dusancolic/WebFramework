@@ -6,13 +6,9 @@ import example.annotations.POST;
 import example.annotations.Path;
 import example.framework.request.enums.MethodEnum;
 
-import java.io.File;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class RouteMapper {
     private final Map<String,Map<Object,Method>> routes = new HashMap<>();
